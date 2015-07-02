@@ -1,6 +1,6 @@
 define( function( require ){
 
-	var SelectableSnapElementView = require( '../views/selectableSnapElementView' );
+	var SnapElementView = require( '../views/snapElementView' );
 
 	var boxCornerRadius = 4;
 	var boxFill = '#acf';
@@ -18,7 +18,9 @@ define( function( require ){
 
 	var offScreen = -100;
 
-	var NodeView = SelectableSnapElementView.extend({
+	var NodeView = SnapElementView.extend({
+
+		isSelected: false,
 
 		initialize: function( options ){
 			
@@ -69,6 +71,17 @@ define( function( require ){
 					this.trigger( 'node:unhover', this );
 			   	}, this )
 			);
+
+			box.click( _.bind( function(){
+				if( !this.isSelected ){
+					this.isSelected = true;
+					this.trigger( 'selected' );
+				}
+				else{
+					this.isSelected = false;
+					this.trigger( 'deselected' );
+				}
+			}, this ));
 
 			var title = this.snap.text( offScreen, offScreen, this.model.get('name') );
 
@@ -173,6 +186,10 @@ define( function( require ){
 				strokeWidth: boxSelectedStrokeWidth
 			});
 
+			this.figureComponents.title.attr({
+				fontWeight: 'bold'
+			});
+
 			this.trigger( 'node:selected', this );
 		},
 
@@ -181,6 +198,11 @@ define( function( require ){
 			this.figureComponents.box.attr({
 				strokeWidth: boxStrokeWidth
 			});
+
+			this.figureComponents.title.attr({
+				fontWeight: null
+			});
+
 			this.trigger( 'node:deselected', this );
 		},
 

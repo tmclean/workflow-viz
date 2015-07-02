@@ -1,14 +1,16 @@
 define( function( require ){
 
-	var SelectableSnapElementView = require( '../views/selectableSnapElementView' );
+	var SnapElementView = require( '../views/snapElementView' );
 
 	var lineWidth = 2;
 	var lineSelectedOrHoverWidth = 3;
 
-	var TransitionView = SelectableSnapElementView.extend({
+	var TransitionView = SnapElementView.extend({
+
+		isSelected: false,
 
 		initialize: function( options ){
-			SelectableSnapElementView.__super__.initialize.apply( this, arguments );
+			TransitionView.__super__.initialize.apply( this, arguments );
 
 			this.snap     = options.snap;
 			this.svgGroup = options.svgGroup;
@@ -39,6 +41,17 @@ define( function( require ){
 				_.bind( this.hover, this ),
 				_.bind( this.unhover, this )
 			);
+
+			line.click( _.bind( function(){
+				if( !this.isSelected ){
+					this.isSelected = true;
+					this.trigger( 'selected' );
+				}
+				else{
+					this.isSelected = false;
+					this.trigger( 'deselected' );
+				}
+			}, this ));
 
 			line.attr({ 
 				strokeWidth: lineWidth, 
