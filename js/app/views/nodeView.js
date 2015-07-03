@@ -3,24 +3,17 @@ define( function( require ){
 	var SnapElementView = require( '../views/snapElementView' );
 
 	var boxCornerRadius = 4;
-	var boxFill = '#acf';
-	var boxHoverFill = '#afc';
-	var boxHoverAnimateTime = 100;
-	var boxStrokeWidth = 0.5;
-	var boxHoverStrokeWidth = 2;
-	var boxSelectedStrokeWidth = 3;
 
 	var portRadius = 4;
 	var portRadiusHover = 6;
 	var portHoverAnimateTime = 100;
-	var portFill = '#ccc';
-	var portHoverFill = '#aaa';
 
 	var offScreen = -100;
 
 	var NodeView = SnapElementView.extend({
 
 		isSelected: false,
+		isDragging: false,
 
 		initialize: function( options ){
 			
@@ -36,79 +29,103 @@ define( function( require ){
 			this.figureComponents = {};
 		},
 
+		calcModelDims: function(){
+			return {
+				x:          this.model.get( 'x'      ),
+				y:          this.model.get( 'y'      ),
+				width:      this.model.get( 'width'  ),
+				height:     this.model.get( 'height' ),
+				halfWidth:  this.model.get( 'width'  ) / 2,
+				halfHeight: this.model.get( 'height' ) / 2
+			};
+		},
+
 		buildFigure: function( attrs ){
-			
-			var modelX      = this.model.get( 'x'      );
-			var modelY      = this.model.get( 'y'      );
-			var modelWidth  = this.model.get( 'width'  );
-			var modelHeight = this.model.get( 'height' );
 
-			var halfWidth  = modelWidth  / 2;
-			var halfHeight = modelHeight / 2;
+			var dims = this.calcModelDims();
 
-			var box = this.snap.rect( modelX, modelY, modelWidth, modelHeight, boxCornerRadius );
+			var nodeFigure = this.snap.group();
 
-			box.attr({
-				fill: boxFill,
-				stroke: '#000',
-				strokeWidth: 0.5,
-				opacity: 0.9
-			});
+			this.drawBox(   nodeFigure, dims );
+			this.drawTitle( nodeFigure, dims );
+			this.drawPorts( nodeFigure, dims );
+
+			nodeFigure.addClass( 'node' );
+
+			return nodeFigure;
+		},
+
+		drawBox: function( nodeFigure, dims ){
+
+			var box = this.snap.rect( dims.x, 
+									  dims.y,
+									  dims.width, 
+									  dims.height );
+
+			box.addClass( 'node-box' );
 
 			box.hover(
-				_.bind( function(){ 
-					if( !this.isSelected ){
-						box.animate({ strokeWidth: boxHoverStrokeWidth }, boxHoverAnimateTime );
-					} 
-					box.animate({ fill: boxHoverFill }, boxHoverAnimateTime );
-					this.trigger( 'node:hover', this );
-				}, this ),
-			   _.bind( function(){ 
-					if( !this.isSelected ){
-						box.animate({ strokeWidth: boxStrokeWidth }, boxHoverAnimateTime );
-					} 
-					box.animate({ fill: boxFill }, boxHoverAnimateTime );
-					this.trigger( 'node:unhover', this );
-			   	}, this )
+				_.bind( function(){ this.trigger( 'node:hover',   this ); }, this ),
+			   	_.bind( function(){ this.trigger( 'node:unhover', this ); }, this )
 			);
 
 			box.click( _.bind( function(){
-				if( !this.isSelected ){
-					this.isSelected = true;
-					this.trigger( 'selected' );
-				}
-				else{
-					this.isSelected = false;
-					this.trigger( 'deselected' );
-				}
+				this.isSelected ? this.trigger( 'deselected' ) : this.trigger( 'selected' );
 			}, this ));
 
-			var title = this.snap.text( offScreen, offScreen, this.model.get('name') );
+			box.drag(
+				_.bind( function( dx, dy, x, y, e ) {
+					this.trigger( 'drag:move', nodeFigure, dx, dy, x, y, e );
+				}, this ), 
 
+				_.bind( function( x, y,e ) {
+					this.trigger( 'drag:start', nodeFigure, x, y, e );
+				}, this ),
+
+				_.bind( function( e ){
+					this.trigger( 'drag:stop', nodeFigure, e );
+				}, this )
+			);
+
+			this.figureComponents.box = box;
+
+			nodeFigure.add( box );
+		},
+
+		drawTitle: function( nodeFigure, dims ){
+
+			var title = nodeFigure.text( offScreen, offScreen, this.model.get('name') );
+
+			title.addClass( 'node-title' );
+
+			this.updateTitlePosition( title, dims );
+
+			this.figureComponents.title = title;
+
+			nodeFigure.add( title );
+		},
+
+		updateTitlePosition: function( title, dims ){
 			var titleBBox = title.getBBox();
 
 			title.attr({
-				x: modelX + halfWidth  - (titleBBox.width/2),
-				y: modelY + halfHeight + (titleBBox.height/2),
-				'pointer-events': 'none',
-				'font-family': 'sans-serif'
+				x: dims.x + dims.halfWidth  - (titleBBox.width/2),
+				y: dims.y + dims.halfHeight + (titleBBox.height/2)
 			});
+		},
+
+		drawPorts: function( nodeFigure, dims ){
 
 			var ports = {
-				east:  this.snap.circle( modelX + modelWidth, modelY + halfHeight,  portRadius ),
-				west:  this.snap.circle( modelX,              modelY + halfHeight,  portRadius ),
-				north: this.snap.circle( modelX + halfWidth,  modelY,               portRadius ),
-				south: this.snap.circle( modelX + halfWidth,  modelY + modelHeight, portRadius )
+				east:  this.snap.circle( dims.x + dims.width,      dims.y + dims.halfHeight, portRadius ),
+				west:  this.snap.circle( dims.x,                   dims.y + dims.halfHeight, portRadius ),
+				north: this.snap.circle( dims.x + dims.halfWidth,  dims.y,                   portRadius ),
+				south: this.snap.circle( dims.x + dims.halfWidth,  dims.y + dims.height,     portRadius )
 			};
 
 			_.each( ports, function( port, dir ){
 				
-				port.attr({
-					fill: portFill,
-					stroke: '#555',
-					strokeWidth: 0.5,
-					opacity: 0.9
-				});
+				port.addClass( 'node-port' );
 
 				port.hover( 
 					
@@ -117,8 +134,7 @@ define( function( require ){
 						this.trigger( 'port:hover', this, dir );
 
 						port.animate({
-							r: portRadiusHover, 
-							fill: portHoverFill 
+							r: portRadiusHover
 						}, 
 						portHoverAnimateTime ); 
 					}, this ),
@@ -128,8 +144,7 @@ define( function( require ){
 						this.trigger( 'port:unhover', this, dir );
 
 						port.animate({
-							r: portRadius, 
-							fill: portFill 
+							r: portRadius
 						}, 
 						portHoverAnimateTime ); 
 					}, this )
@@ -151,65 +166,61 @@ define( function( require ){
 
 			}, this);
 
-			this.figureComponents.box = box;
-			this.figureComponents.title = title;
-			this.figureComponents.ports = ports;
-
-			box.drag(
-				_.bind( function( dx, dy, x, y, e ) {
-					this.trigger( 'drag:move', nodeFigure, dx, dy, x, y, e );
-				}, this ), 
-
-				_.bind( function( x, y,e ) {
-					this.trigger( 'drag:start', nodeFigure, x, y, e );
-				}, this ),
-
-				_.bind( function( e ){
-					this.trigger( 'drag:stop', nodeFigure, e );
-				}, this )
-			);
-
-			var nodeFigure = this.snap.group();
-
-			nodeFigure.add( box );
-			nodeFigure.add( title );
-
 			_.each( ports, function( port ){
 				nodeFigure.add( port );
 			});
 
-			return nodeFigure;
+			this.figureComponents.ports = ports;
 		},
 
 		selected: function(){
-			this.figureComponents.box.attr({
-				strokeWidth: boxSelectedStrokeWidth
-			});
 
-			this.figureComponents.title.attr({
-				fontWeight: 'bold'
-			});
+			if( this.preventSelectChangeAfterDrag() ){
+				return;
+			}
 
-			this.trigger( 'node:selected', this );
+			if( !this.isSelected ){
+				
+				this.isSelected = true;
+
+				this.figure.addClass( 'node-selected' );
+
+				this.trigger( 'node:selected', this );
+			}
 		},
 
 		deselected: function(){
-			this.isSelected = false;
-			this.figureComponents.box.attr({
-				strokeWidth: boxStrokeWidth
-			});
 
-			this.figureComponents.title.attr({
-				fontWeight: null
-			});
+			if( this.preventSelectChangeAfterDrag() ){
+				return;
+			}
 
-			this.trigger( 'node:deselected', this );
+			if( this.isSelected ){
+
+				this.isSelected = false;
+
+				this.figure.removeClass( 'node-selected' );
+
+				this.trigger( 'node:deselected', this );
+			}
 		},
 
-		dragStart: function( figure, x, y, e ){ this.startDragFollow( figure, x, y ); },
+		preventSelectChangeAfterDrag: function(){
+			if( this.isDragging ){
+				this.isDragging = false;
+				return true;
+			}
+
+			return false;
+		},
+
+		dragStart: function( figure, x, y, e ){ 
+			this.startDragFollow( figure, x, y ); 
+		},
 
 		dragMove: function( figure, dx, dy, x, y, e ){ 
 			this.moveDragFollow( figure, dx, dy ); 
+			this.isDragging = true;
 		},
 
 		dragStop: function( figure ){
