@@ -17,7 +17,7 @@ define( function( require ){
 
 		initialize: function( options ){
 			
-			NodeView.__super__.initialize.apply( this, arguments );
+			SnapElementView.prototype.initialize.apply( this, arguments );
 
 			this.bind( 'port:drag:move',    this.portDragMove    );
 			this.bind( 'port:drag:start',   this.portDragStart   );

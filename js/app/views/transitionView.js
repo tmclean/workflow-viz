@@ -7,7 +7,8 @@ define( function( require ){
 		isSelected: false,
 
 		initialize: function( options ){
-			TransitionView.__super__.initialize.apply( this, arguments );
+			
+			SnapElementView.prototype.initialize.apply( this, arguments );
 
 			this.snap     = options.snap;
 			this.svgGroup = options.svgGroup;
