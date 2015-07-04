@@ -56,7 +56,6 @@ define( function( require ){
 			}, this ));
 
 			this.drawFromMarker(  _.bind( function( marker ){
-				console.log( marker );
 				line.attr({ 
 					'marker-start': marker
 				});
