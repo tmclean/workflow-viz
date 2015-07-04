@@ -48,9 +48,24 @@ define( function( require ){
 
 			var nodeFigure = this.snap.group();
 
-			this.drawBox(   nodeFigure, dims );
+			this.drawBox( nodeFigure, dims );
+
 			this.drawTitle( nodeFigure, dims );
 			this.drawPorts( nodeFigure, dims );
+
+			if( this.typeDef.icon ){
+				var iconConfig = this.typeDef.icon;
+
+				var iconSvg = this.snap.image( 
+					iconConfig.url, 
+					iconConfig.x + dims.x, 
+					iconConfig.y + dims.y, 
+					iconConfig.width, 
+					iconConfig.height );
+				
+				nodeFigure.add( iconSvg );
+			}
+
 
 			nodeFigure.addClass( this.typeDef.cssClass );
 

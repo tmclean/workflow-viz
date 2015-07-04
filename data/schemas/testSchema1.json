@@ -7,15 +7,27 @@
 	"nodeTypes":{
 		"Node Type 1":{
 			"cssClass":     "node",
-			"cornerRadius": 10
+			"cornerRadius": 10,
+			"icon":{
+				"url":    "/data/schemas/svg/icon.svg",
+				"x":      5,
+				"y":      5,
+				"width":  16,
+				"height": 16
+			}
 		},
 		"Node Type 2":{
 			"cssClass":     "node2",
-			"cornerRadius": 0
+			"cornerRadius": 0,
+			"icon":{
+				"url":    "/data/schemas/svg/home.svg",
+				"x":      5,
+				"y":      5,
+				"width":  25,
+				"height": 25
+			}
 		}
 	},
-
-
 
 	"transitionTypes":{
 		"Transition Type 1":{
