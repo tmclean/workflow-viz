@@ -26,6 +26,7 @@ define( function( require ){
 		parse: function( response, options ){
 
 			this.schemas = response.schemas;
+			this.defaultTransitionType = response.defaultTransitionType;
 
 			_.each( response.nodes, function( node ){
 				this.addNode( node );

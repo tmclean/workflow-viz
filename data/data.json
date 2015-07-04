@@ -1,4 +1,9 @@
 {
+	"defaultTransitionType":{
+		"schema": "Test Schema 1",
+		"type":   "Transition Type 1"
+	},
+
 	"schemas": [
 		"Test Schema 1",
 		"Test Schema 2"

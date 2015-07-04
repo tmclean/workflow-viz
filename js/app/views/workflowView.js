@@ -394,8 +394,17 @@ define( function( require ){
 				}
 			});
 
-			var schemaDef = this.schemaDefinitions[ model.get('type').schema ];
-			var typeDef = schemaDef.get( 'transitionTypes' )[ model.get('type').type ];
+			//
+			// Ensure the transition model has a type associated with it
+			//
+			if( !model.get( 'type' ) ){
+				model.set( 'type', this.model.defaultTransitionType );
+			}
+
+			var type = model.get( 'type' );
+
+			var schemaDef = this.schemaDefinitions[ type.schema ];
+			var typeDef = schemaDef.get( 'transitionTypes' )[ type.type ];
 
 			var view = new TransitionView({
 				snap:     this.snap,
