@@ -48,3 +48,7 @@
 .transition.transition-selected{
 	stroke: #00f;
 }
+
+.to-marker{
+	fill: #57f;
+}

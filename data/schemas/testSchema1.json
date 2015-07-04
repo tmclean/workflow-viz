@@ -6,14 +6,39 @@
 
 	"nodeTypes":{
 		"Node Type 1":{
-			"cssClass": "node",
+			"cssClass":     "node",
 			"cornerRadius": 5
 		}
 	},
 
 	"transitionTypes":{
 		"Transition Type 1":{
-			"cssClass": "transition"
+
+			"cssClass": "transition",
+			
+			"toMarker": {
+				"url":      "/data/schemas/svg/arrow.svg",
+				"selector": "#arrow_x5F_left",
+				"cssClass": "to-marker",
+				"width":    32,
+				"height":   32,
+				"anchorX":  10,
+				"anchorY":  16,
+				"scale":    0.2,
+				"rotate":   180
+			},
+
+			"fromMarker": {
+				"url":      "/data/schemas/svg/arrow.svg",
+				"selector": "#arrow_x5F_left",
+				"cssClass": "to-marker",
+				"width":    32,
+				"height":   32,
+				"anchorX":  10,
+				"anchorY":  16,
+				"scale":    0.2,
+				"rotate":   0
+			}
 		}
 	}
 }

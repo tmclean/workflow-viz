@@ -17,7 +17,6 @@ define( function( require ){
 			this.fromDir  = options.fromDir;
 			this.toView   = options.toView;
 			this.toDir    = options.toDir;
-			this.toMarker = null;
 
 			this.bind( 'selected',   this.selected   );
 			this.bind( 'deselected', this.deselected );
@@ -30,8 +29,6 @@ define( function( require ){
 
 			var fromCoords = this.getFromCoords();
 			var toCoords   = this.getToCoords();
-
-			var toMarker = this.drawToMarker();
 
 			var line = this.svgGroup.line( fromCoords.x, fromCoords.y, toCoords.x, toCoords.y );
 
@@ -51,9 +48,19 @@ define( function( require ){
 				}
 			}, this ));
 
-			line.attr({ 
-				'marker-end': toMarker
-			});
+
+			this.drawToMarker( _.bind( function( marker ){
+				line.attr({ 
+					'marker-end': marker
+				});
+			}, this ));
+
+			this.drawFromMarker(  _.bind( function( marker ){
+				console.log( marker );
+				line.attr({ 
+					'marker-start': marker
+				});
+			}, this ));
 
 			return line;
 		},
@@ -82,14 +89,50 @@ define( function( require ){
 			}
 		},
 
-		drawToMarker: function(){
-			var marker = this.snap.polygon( 0,0, 0,6, 3,3 );
+		drawToMarker: function( callback ){
 
-			marker.attr({
-				fill: '#555',
-			});
+			var markerUrl = this.typeDef.toMarker.url;
 
-			return marker.marker( 0,0, 3,6, 3,3 );
+			Snap.load( markerUrl, _.bind( function( fragment ){
+
+				var markerConfig = this.typeDef.toMarker;
+
+				var markerSvg = fragment.select( markerConfig.selector );
+
+				markerSvg.addClass( markerConfig.cssClass );
+
+				markerSvg.attr( { transform: 'r' + markerConfig.rotate + ',' + markerConfig.anchorX + ',' + markerConfig.anchorY + 's' + markerConfig.scale + ',' + markerConfig.anchorX + ',' + markerConfig.anchorY } );
+
+				var marker = markerSvg.marker( 0, 0, markerConfig.width, markerConfig.height, markerConfig.anchorX, markerConfig.anchorY );
+
+				this.snap.append( marker );
+
+				callback( marker );
+
+			}, this ));
+		},
+
+		drawFromMarker: function( callback ){
+
+			var markerUrl = this.typeDef.fromMarker.url;
+
+			Snap.load( markerUrl, _.bind( function( fragment ){
+
+				var markerConfig = this.typeDef.fromMarker;
+
+				var markerSvg = fragment.select( markerConfig.selector );
+
+				markerSvg.addClass( markerConfig.cssClass );
+
+				markerSvg.attr( { transform: 'r' + markerConfig.rotate + ',' + markerConfig.anchorX + ',' + markerConfig.anchorY + 's' + markerConfig.scale + ',' + markerConfig.anchorX + ',' + markerConfig.anchorY } );
+
+				var marker = markerSvg.marker( 0, 0, markerConfig.width, markerConfig.height, markerConfig.anchorX, markerConfig.anchorY );
+
+				this.snap.append( marker );
+
+				callback( marker );
+
+			}, this ));
 		},
 
 		updateLine: function(){
