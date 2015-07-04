@@ -394,8 +394,12 @@ define( function( require ){
 				}
 			});
 
+			var schemaDef = this.schemaDefinitions[ model.get('type').schema ];
+			var typeDef = schemaDef.get( 'transitionTypes' )[ model.get('type').type ];
+
 			var view = new TransitionView({
 				snap:     this.snap,
+				typeDef:  typeDef,
 				svgGroup: this.transitionsSvg,
 				fromView: fromView,
 				fromDir:  model.get('from').dir,

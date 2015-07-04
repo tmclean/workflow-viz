@@ -68,32 +68,102 @@
 
 	"transitions":[
 		{
-			"from": { "id": 1, "dir": "south" },
-			"to":   { "id": 2, "dir": "north" }
+			"type":{
+				"schema": "Test Schema 1",
+				"type": "Transition Type 1"
+			},
+			"from":{ 
+				"id":  1, 
+				"dir": "south" 
+			},
+			"to":{ 
+				"id":  2, 
+				"dir": "north" 
+			}
 		},
 		{
-			"from": { "id": 1, "dir": "south" },
-			"to":   { "id": 2, "dir": "west"  } 
+			"type":{
+				"schema": "Test Schema 1",
+				"type": "Transition Type 1"
+			},
+			"from":{ 
+				"id":  1, 
+				"dir": "south" 
+			},
+			"to":{
+				"id":  2, 
+				"dir": "west"  
+			} 
 		},
 		{
-			"from": { "id": 2, "dir": "south" },
-			"to":   { "id": 3, "dir": "north" }
+			"type":{
+				"schema": "Test Schema 1",
+				"type": "Transition Type 1"
+			},
+			"from":{
+				"id":  2, 
+				"dir": "south"
+			},
+			"to":{
+				"id":  3,
+				"dir": "north"
+			}
 		},
 		{
-			"from": { "id": 2, "dir": "south" },
-			"to":   { "id": 4, "dir": "north" }
+			"type":{
+				"schema": "Test Schema 1",
+				"type": "Transition Type 1"
+			},
+			"from":{
+				"id":  2,
+				"dir": "south"
+			},
+			"to":{
+				"id": 4,
+				"dir": "north"
+			}
 		},
 		{
-			"from": { "id": 3, "dir": "south" },
-			"to":   { "id": 4, "dir": "north" }
+			"type":{
+				"schema": "Test Schema 1",
+				"type": "Transition Type 1"
+			},
+			"from":{
+				"id":  3,
+				"dir": "south"
+			},
+			"to":{
+				"id":  4,
+				"dir": "north"
+			}
 		},
 		{
-			"from": { "id": 2, "dir": "east"  },
-			"to":   { "id": 5, "dir": "west"  }
+			"type":{
+				"schema": "Test Schema 1",
+				"type": "Transition Type 1"
+			},
+			"from":{ 
+				"id":  2,
+				"dir": "east"
+			},
+			"to":{
+				"id":  5,
+				"dir": "west"
+			}
 		},
 		{
-			"from": { "id": 5, "dir": "south" },
-			"to":   { "id": 4, "dir": "east"  }
+			"type":{
+				"schema": "Test Schema 1",
+				"type": "Transition Type 1"
+			},
+			"from":{
+				"id":  5,
+				"dir": "south"
+			},
+			"to":{
+				"id":  4,
+				"dir": "east"
+			}
 		}
 	]
 }

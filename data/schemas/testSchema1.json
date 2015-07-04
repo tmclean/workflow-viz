@@ -6,7 +6,14 @@
 
 	"nodeTypes":{
 		"Node Type 1":{
-			"cssClass": "node"
+			"cssClass": "node",
+			"cornerRadius": 5
+		}
+	},
+
+	"transitionTypes":{
+		"Transition Type 1":{
+			"cssClass": "transition"
 		}
 	}
 }

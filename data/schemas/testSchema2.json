@@ -4,10 +4,16 @@
 		"/data/schemas/css/testSchema2.css"
 	],
 
-	"nodeTypes":[
-		{
-			"name":     "Node Type 1",
-			"cssClass": "node"
+	"nodeTypes":{
+		"Node Type 1":{
+			"cssClass": "node",
+			"cornerRadius": 2
 		}
-	]
+	},
+
+	"transitionTypes":{
+		"Transition Type 1":{
+			"cssClass": "transition"
+		}
+	}
 }

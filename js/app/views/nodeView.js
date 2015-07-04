@@ -64,6 +64,13 @@ define( function( require ){
 									  dims.width, 
 									  dims.height );
 
+			if( this.typeDef.cornerRadius ){
+				box.attr({
+					rx: this.typeDef.cornerRadius,
+					ry: this.typeDef.cornerRadius
+				});
+			}
+
 			box.addClass( 'node-box' );
 
 			box.hover(

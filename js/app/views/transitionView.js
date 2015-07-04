@@ -11,6 +11,7 @@ define( function( require ){
 			SnapElementView.prototype.initialize.apply( this, arguments );
 
 			this.snap     = options.snap;
+			this.typeDef  = options.typeDef;
 			this.svgGroup = options.svgGroup;
 			this.fromView = options.fromView;
 			this.fromDir  = options.fromDir;
@@ -34,7 +35,7 @@ define( function( require ){
 
 			var line = this.svgGroup.line( fromCoords.x, fromCoords.y, toCoords.x, toCoords.y );
 
-			line.addClass( 'transition' );
+			line.addClass( this.typeDef.cssClass );
 
 			line.hover(
 				_.bind( this.hover,   this ),
