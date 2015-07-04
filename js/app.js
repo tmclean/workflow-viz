@@ -26,92 +26,48 @@ require.config({
 	}
 });
 
-var data = {
-	nodes: [{
-		id: 1,
-		name: 'Node 1',
-		x: 10,
-		y: 50,
-		width: 200,
-		height: 50
-	},
-	{
-		id: 2,
-		name: 'Node 2',
-		x: 100,
-		y: 150,
-		width: 150,
-		height: 50
-	},
-	{
-		id: 3,
-		name: 'Node 3',
-		x: 325,
-		y: 275,
-		width: 200,
-		height: 50
-	},
-	{
-		id: 4,
-		name: 'Node 4',
-		x: 300,
-		y: 400,
-		width: 150,
-		height: 150
-	},
-	{
-		id: 5,
-		name: 'Node 5',
-		x: 500,
-		y: 200,
-		width: 150,
-		height: 50
-	}],
-	transitions:[
-	{
-		from: { id: 1, dir: 'south' },
-		to:   { id: 2, dir: 'north' }
-	},
-	{
-		from: { id: 1, dir: 'south' },
-		to:   { id: 2, dir: 'west' } 
-	},
-	{
-		from: { id: 2, dir: 'south' },
-		to:   { id: 3, dir: 'north' }
-	},
-	{
-		from: { id: 2, dir: 'south' },
-		to:   { id: 4, dir: 'north' }
-	},
-	{
-		from: { id: 3, dir: 'south' },
-		to:   { id: 4, dir: 'north' }
-	},
-	{
-		from: { id: 2, dir: 'east' },
-		to:   { id: 5, dir: 'west' }
-	},
-	{
-		from: { id: 5, dir: 'south' },
-		to:   { id: 4, dir: 'east' }
-	}]
-};
+var runApp = function( Backbone, _, Snap, WorkflowView, WorkflowModel, SchemaCollection ){
 
-var runApp = function( Backbone, _, Snap, WorkflowView, WorkflowModel ){
+	//
+	// Load the collection of available Schemas and their locations
+	//
+	var schemaRegistry = new SchemaCollection();
 
-	var workflowModel = new WorkflowModel();
+	var schemaRegistryFetchDeferred = $.Deferred();
 
-	_.each( data.nodes, function( node ){
-		workflowModel.addNode( node );
+	schemaRegistry.fetch({
+		success: function(){
+			schemaRegistryFetchDeferred.resolve();
+		}
 	});
 
-	_.each( data.transitions, function( transition ){
-		workflowModel.addTransition( transition );
-	})
+	//
+	// Load the workflow model
+	//
+	var workflowModelDeferred = $.Deferred();
 
-	var workflowView  = new WorkflowView( {model: workflowModel, el: $( '.svg' ) } );
-	workflowView.render();
+	var workflowModel = new WorkflowModel();
+	
+	workflowModel.fetch( { 
+		url: '/data/data.json', 
+		success: function(){
+			workflowModelDeferred.resolve();
+		} 
+	});
+
+	//
+	// When both the workflow model and schema reigstry are loaded, render the workflow.
+	//
+	$.when( schemaRegistryFetchDeferred.promise(), workflowModelDeferred.promise() ).done( function(){
+
+		var workflowView  = new WorkflowView({
+			model: workflowModel, 
+			el: $( '.svg' ), 
+			schemaRegistry: schemaRegistry 
+		});
+
+		workflowView.render();
+	})
 };
 
 require(
@@ -120,7 +76,8 @@ require(
 		'underscore', 
 		'snap-svg', 
 		'app/views/workflowView', 
-		'app/models/workflowModel'
+		'app/models/workflowModel',
+		'app/collections/schemaCollection'
 	], 
 	runApp
 );

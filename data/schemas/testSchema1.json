@@ -1,0 +1,12 @@
+{
+	"id": "Test Schema 1",
+	"stylesheets":[
+		"/data/schemas/css/testSchema1.css"
+	],
+
+	"nodeTypes":{
+		"Node Type 1":{
+			"cssClass": "node"
+		}
+	}
+}

@@ -7,8 +7,7 @@ define( function( require ){
 			this.id   = null;
 			this.name = null;
 			this.x    = null;
-			this.y    = null;
-		}
+			this.y    = null;		}
 	});
 
 	return NodeModel;

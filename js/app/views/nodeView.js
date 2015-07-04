@@ -27,6 +27,8 @@ define( function( require ){
 			this.bind( 'deselected', this.deselected );
 
 			this.figureComponents = {};
+
+			this.typeDef = options.typeDef;
 		},
 
 		calcModelDims: function(){
@@ -50,7 +52,7 @@ define( function( require ){
 			this.drawTitle( nodeFigure, dims );
 			this.drawPorts( nodeFigure, dims );
 
-			nodeFigure.addClass( 'node' );
+			nodeFigure.addClass( this.typeDef.cssClass );
 
 			return nodeFigure;
 		},

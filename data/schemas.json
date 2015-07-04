@@ -1,0 +1,10 @@
+[
+	{
+		"id": "Test Schema 1",
+		"url": "/data/schemas/testSchema1.json"
+	},
+	{
+		"id": "Test Schema 2",
+		"url": "/data/schemas/testSchema2.json"
+	}
+]
