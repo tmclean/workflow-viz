@@ -1,50 +1,50 @@
-.node2 .node-box{
+.node2-1 .node-box{
 	fill:         #acf;
 	stroke:       #000;
 	stroke-width: 0.5;
 	opacity:      0.8;
 }
 
-.node2 .node-title{
+.node2-1 .node-title{
 	fill:           #000;
 	font-family:    sans-serif;
 	pointer-events: none;
 }
 
-.node2:hover .node-box{
+.node2-1:hover .node-box{
 	fill:         #afc;
 	stroke:       #000;
 }
 
-.node2:hover .node-title{
+.node2-1:hover .node-title{
 	font-family: sans-serif;
 	font-weight: bold;
 }
 
-.node2-selected .node-box{
+.node2-1-selected .node-box{
 	stroke-width: 3;
 }
 
-.node2 .node-port{
+.node2-1 .node-port{
 	fill:        #ccc;
 	stroke:      #555;
 	strokeWidth: 0.5;
 	opacity:     0.9;
 }
 
-.node2 .node-port:hover{
+.node2-1 .node-port:hover{
 	fill: #aaa; 
 }
 
-.transition2{
+.transition2-1{
 	stroke-width: 2;
 	stroke:       #57f;
 }
 
-.transition2-hover{
+.transition2-1-hover{
 	stroke-width: 3;
 }
 
-.transition2-selected{
+.transition2-1-selected{
 	stroke: #00f;
 }

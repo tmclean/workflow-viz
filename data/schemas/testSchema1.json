@@ -7,9 +7,15 @@
 	"nodeTypes":{
 		"Node Type 1":{
 			"cssClass":     "node",
-			"cornerRadius": 5
+			"cornerRadius": 10
+		},
+		"Node Type 2":{
+			"cssClass":     "node2",
+			"cornerRadius": 0
 		}
 	},
+
+
 
 	"transitionTypes":{
 		"Transition Type 1":{

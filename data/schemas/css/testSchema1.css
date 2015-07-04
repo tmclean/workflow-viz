@@ -36,6 +36,50 @@
 	fill: #aaa; 
 }
 
+/*
+ * Node 2
+ */
+.node2 .node-box{
+	fill:         #afc;
+	stroke:       #000;
+	stroke-width: 0.5;
+	opacity:      0.8;
+}
+
+.node2 .node-title{
+	fill:           #000;
+	font-family:    sans-serif;
+	pointer-events: none;
+}
+
+.node2:hover .node-box{
+	fill:         #acf;
+	stroke:       #000;
+}
+
+.node2:hover .node-title{
+	font-family: sans-serif;
+	font-weight: bold;
+}
+
+.node2.node-selected .node-box{
+	stroke-width: 3;
+}
+
+.node2 .node-port{
+	fill:        #ccc;
+	stroke:      #555;
+	strokeWidth: 0.5;
+	opacity:     0.9;
+}
+
+.node .node-port:hover{
+	fill: #aaa; 
+}
+
+/*
+ * Transitions
+ */
 .transition{
 	stroke-width: 2;
 	stroke:       #57f;
