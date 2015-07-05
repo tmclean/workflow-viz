@@ -19,9 +19,9 @@ define( function( require ){
 			
 			SnapElementView.prototype.initialize.apply( this, arguments );
 
-			this.bind( 'port:drag:move',    this.portDragMove    );
-			this.bind( 'port:drag:start',   this.portDragStart   );
-			this.bind( 'port:drag:stop',    this.portDragStop    );
+			this.bind( 'port:drag:move',    this.portDragMove  );
+			this.bind( 'port:drag:start',   this.portDragStart );
+			this.bind( 'port:drag:stop',    this.portDragStop  );
 
 			this.bind( 'selected',   this.selected   );
 			this.bind( 'deselected', this.deselected );
@@ -58,11 +58,14 @@ define( function( require ){
 
 				var iconSvg = this.snap.image( 
 					iconConfig.url, 
-					iconConfig.x + dims.x, 
-					iconConfig.y + dims.y, 
-					iconConfig.width, 
-					iconConfig.height );
-				
+					iconConfig.offset.x + dims.x, 
+					iconConfig.offset.y + dims.y 
+				);
+
+				if( iconConfig.cssClass ){
+					iconSvg.addClass( iconConfig.cssClass );
+				}
+
 				nodeFigure.add( iconSvg );
 			}
 

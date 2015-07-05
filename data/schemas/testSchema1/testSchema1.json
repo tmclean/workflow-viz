@@ -1,7 +1,7 @@
 {
 	"id": "Test Schema 1",
 	"stylesheets":[
-		"/data/schemas/css/testSchema1.css"
+		"/data/schemas/testSchema1/css/testSchema1.css"
 	],
 
 	"nodeTypes":{
@@ -9,22 +9,24 @@
 			"cssClass":     "node",
 			"cornerRadius": 10,
 			"icon":{
-				"url":    "/data/schemas/svg/icon.svg",
-				"x":      5,
-				"y":      5,
-				"width":  16,
-				"height": 16
+				"cssClass": "icon-img",
+				"url":    "/data/schemas/testSchema1/svg/icon.svg",
+				"offset":{
+					"x": 5,
+					"y": 5
+				}
 			}
 		},
 		"Node Type 2":{
 			"cssClass":     "node2",
 			"cornerRadius": 0,
 			"icon":{
-				"url":    "/data/schemas/svg/home.svg",
-				"x":      5,
-				"y":      5,
-				"width":  25,
-				"height": 25
+				"cssClass": "icon-img",
+				"url":    "/data/schemas/testSchema1/svg/home.svg",
+				"offset":{
+					"x": 5,
+					"y": 5
+				}
 			}
 		}
 	},
@@ -35,7 +37,7 @@
 			"cssClass": "transition",
 			
 			"toMarker": {
-				"url":      "/data/schemas/svg/arrow.svg",
+				"url":      "/data/schemas/testSchema1/svg/arrow.svg",
 				"selector": "#arrow_x5F_left",
 				"cssClass": "to-marker",
 				"width":    32,
@@ -47,7 +49,7 @@
 			},
 
 			"fromMarker": {
-				"url":      "/data/schemas/svg/arrow.svg",
+				"url":      "/data/schemas/testSchema1/svg/arrow.svg",
 				"selector": "#arrow_x5F_left",
 				"cssClass": "to-marker",
 				"width":    32,

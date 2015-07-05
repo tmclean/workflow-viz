@@ -1,7 +1,7 @@
 {
 	"id": "Test Schema 2",
 	"stylesheets":[
-		"/data/schemas/css/testSchema2.css"
+		"/data/schemas/testSchema2/css/testSchema2.css"
 	],
 
 	"nodeTypes":{
